@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html ng-app="ShoppingApp">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" http-equiv="Content-Type" content="text/html" ;
+        charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.4.3/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+</head>
+
+
+<img id="estirada" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%" src="img/sfd.jpg" />
+<body ng-controller="ShopCtrl" >
+
+    <!-- barra de navegacion y menu -->
+
+    <nav class="navbar navbar-expand-lg  sticky-top navbar-dark bg-dark mb-4">
+        <a class="navbar-brand" href="#">ShoopingApp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" ng-show="products.length !== 0">Empty <span class="sr-only">(current)</span></a>
+                </li>
+                <!-- <li class="nav-item">
+                      <a class="nav-link" href="#">Link</a>
+                    </li> -->
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0" ng-show="products.length !== 0">
+                <button class="btn btn-outline-success mx-2" type="submit" ng-click="filterPrice()">Filter</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="min price" aria-label="Search" ng-model="min">
+                <input class="form-control mr-sm-2" type="search" placeholder="max price" aria-label="Search" ng-model="max">
+            </form>
+
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" ng-model="keywords">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="mongoQuery()">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- aqui termina el nav bar -->
+
+
+    <div class="container" ng-show="miP !== 0">
+        
+        <div class="row">
+            <div class="col-lg-4">
+                <h5>Filtros <span class="badge badge-info">{{miP | currency}} - {{maP | currency}}</span></h5>
+            </div>
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4 text-right">
+                <!-- <h5>limpiar filtros</h5> -->
+                <!-- <button type="button" class="btn btn-light ">Limpiar filtros</button> -->
+                <h5><span class="badge badge-info" ng-click=mongoQuery()>Limpiar filtros</span></h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div>
+
+            <ul class="list-unstyled row text-center">
+
+
+                <li class="col-xs-6 col-md-3 col-sm-3 col-lg-3 list-group-item" ng-repeat="product in products">
+
+                    <figure>
+                        <img src={{product.thumbnail}} class="img-circle" width="100" height="100" />
+
+                        <figcaption>
+                            {{ product.title }}
+                            <h3>{{ product.price | currency }}</h3>
+                        </figcaption>
+
+                    </figure>
+
+                    <input class="btn btn-success" type="button" ng-click="addItemToCart(product)" value="buy" />
+                    <!-- <input class="btn btn-warning" type="button" data-toggle="modal" data-target="#contact_dialog"
+                        value="updte" /> -->
+                    <input class="btn btn-danger" type="button" ng-click="dltItem(product)" value="remove" />
+
+                </li> <!-- fin del listado, aqui se muestran las imagenes y la info de los productos -->
+
+            </ul><!-- fin del contenedor de listado de tabla. -->
+
+            <div ng-show="cart.length !== 0">
+                <h1>CART-SHOW</h1>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="c in cart">
+                        <h4>{{c.name}} | <span style="color:blue"> {{c.count}} </span> | {{c.price*c.count | currency}}</h4>
+                        <input class="btn btn-danger" type="button" ng-click="removeItemCart(c)" value="Remove" />
+                    </li>
+                </ul>
+
+                Total : {{total | currency}}
+            </div>
+
+        </div><!-- El controlador ShopCtrl funciona hasta aqui -->
+
+    </div>
+    </div>
+</body>
+
+</html>
