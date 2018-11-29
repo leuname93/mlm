@@ -8,11 +8,24 @@ app.controller('ShopCtrl', ['$scope', '$http', '$cookies', function ($scope, $ht
     $scope.items = 0;
     $scope.miP = 0;
     $scope.maP = 0;
+    $scope.cont = 0;
 
     // $scope.clearFilter = function () {
     //     //console.log('hola')
     // };
-
+    $scope.filterCondition = function(){
+        console.log($scope.cond);
+        
+        $http.get("/api/" + $scope.keywords + '/' + $scope.cond)
+            .then(function (response) {
+                if(!response.data.length){
+                    console.log('no hay articulos Disponibles con este filtro')
+                    $scope.products = null;
+                }else{
+                    $scope.products = response.data;
+                }
+            });
+    };
     $scope.dltItem = function (product) {
 
         $http.delete("/api/" + $scope.keywords + '/delete/' + product._id)
