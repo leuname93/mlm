@@ -13,9 +13,7 @@ module.exports = {
             var h = [];
 
             items = body.results;
-            
-            console.log('Tamano del arrreglo', items.length);
-
+        
             var item = items.find(function(element) {
 
                 var obj = {
@@ -26,20 +24,10 @@ module.exports = {
                     "condition": element.condition,
                     "thumbnail": element.thumbnail
                 };
-                //console.log(obj);
-                //console.log(new sItems(obj));
+
                 const itm = new sItems(obj);
 
                 itm.save();
-                
-                // h.push({
-                //     "title": element.title,
-                //     "price": element.price,
-                //     "state_name": element.address.state_name,
-                //     "sold_quantity": element.sold_quantity,
-                //     "condition": element.condition
-                // });
-                
                 
             });
 
